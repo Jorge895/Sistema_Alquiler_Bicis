@@ -1,6 +1,18 @@
 <?php
 include("conexion.php");
 
+// Buscar bicicleta por ID
+$busqueda_resultado = null;
+if (isset($_POST['buscar_bici'])) {
+    $id_buscado = $_POST['id_bici_buscar'];
+    $busqueda = $conn->query("SELECT * FROM Bicicletas WHERE ID_Bicicleta = $id_buscado");
+    if ($busqueda && $busqueda->num_rows > 0) {
+        $busqueda_resultado = $busqueda->fetch_assoc();
+    } else {
+        $mensaje = "❌ No se encontró una bicicleta con ID $id_buscado.";
+    }
+}
+
 // Registrar nueva bicicleta
 if (isset($_POST['registrar'])) {
     $marca = $_POST['marca'];
@@ -76,6 +88,30 @@ if (isset($_POST['guardar_edicion'])) {
 <body>
 
 <h1>🔧 Modificar Inventario de Bicicletas</h1>
+
+<h2 style="text-align:center;">🔍 Buscar y eliminar bicicleta por ID</h2>
+
+<form method="POST" style="text-align:center; margin-bottom: 30px;">
+    <input type="number" name="id_bici_buscar" placeholder="ID de bicicleta" required>
+    <button type="submit" name="buscar_bici">Buscar</button>
+</form>
+
+<?php if ($busqueda_resultado): ?>
+    <div style="width: 60%; margin: auto; background-color: #fff4e6; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+        <p><strong>🚲 Bicicleta encontrada:</strong></p>
+        <ul>
+            <li><strong>ID:</strong> <?= $busqueda_resultado['ID_Bicicleta'] ?></li>
+            <li><strong>Marca:</strong> <?= $busqueda_resultado['Marca'] ?></li>
+            <li><strong>Modelo:</strong> <?= $busqueda_resultado['Modelo'] ?></li>
+            <li><strong>Tipo:</strong> <?= $busqueda_resultado['Tipo'] ?></li>
+            <li><strong>Estado:</strong> <?= $busqueda_resultado['Estado'] ?></li>
+        </ul>
+        <a href="modificar_inventario.php?eliminar=<?= $busqueda_resultado['ID_Bicicleta'] ?>" 
+           onclick="return confirm('¿Estás seguro de eliminar esta bicicleta?')"
+           style="color: red; text-decoration: none;">🗑️ Eliminar esta bicicleta</a>
+    </div>
+<?php endif; ?>
+
 
 <?php if (isset($mensaje)) echo "<p class='msg'>$mensaje</p>"; ?>
 
