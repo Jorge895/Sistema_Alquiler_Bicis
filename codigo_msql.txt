@@ -1,0 +1,132 @@
+CREATE DATABASE bicicletas;
+use bicicletas;
+
+-- Tabla Bicicletas
+CREATE TABLE Bicicletas (
+    ID_Bicicleta INT AUTO_INCREMENT PRIMARY KEY,
+    Marca VARCHAR(50),
+    Modelo VARCHAR(50),
+    Tipo ENUM('Montaña', 'Ruta', 'Paseo'),
+    Estado ENUM('Disponible', 'Alquilada', 'Mantenimiento') DEFAULT 'Disponible'
+);
+
+-- Tabla Usuarios
+CREATE TABLE Usuarios (
+    ID_Usuario INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Apellido VARCHAR(50) NOT NULL,
+    DNI VARCHAR(15) UNIQUE NOT NULL,
+    Correo VARCHAR(100) UNIQUE,
+    Telefono VARCHAR(20),
+    Tipo_Usuario ENUM('Estudiante', 'Docente', 'Administrativo') NOT NULL
+);
+
+-- Tabla Alquileres
+CREATE TABLE Alquileres (
+    ID_Alquiler INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Bicicleta INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+    Fecha_Alquiler DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Fecha_Devolucion DATETIME,
+    Estado ENUM('Activo', 'Finalizado', 'Retrasado') DEFAULT 'Activo',
+    CONSTRAINT fk_alquiler_bicicleta FOREIGN KEY (ID_Bicicleta) REFERENCES Bicicletas(ID_Bicicleta) ON DELETE CASCADE,
+    CONSTRAINT fk_alquiler_usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(ID_Usuario) ON DELETE CASCADE
+);
+
+-- Tabla Pagos
+CREATE TABLE Pagos (
+    ID_Pago INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Alquiler INT NOT NULL,
+    Monto DECIMAL(6,2) NOT NULL,
+    Fecha_Pago DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Metodo ENUM('Efectivo', 'Tarjeta', 'Yape', 'Plin'),
+    CONSTRAINT fk_pago_alquiler FOREIGN KEY (ID_Alquiler) REFERENCES Alquileres(ID_Alquiler) ON DELETE CASCADE
+);
+
+INSERT INTO Bicicletas (Marca, Modelo, Tipo, Estado) VALUES
+('Trek', 'FX 3 Disc', 'Paseo', 'Disponible'),
+('Giant', 'Escape 3', 'Paseo', 'Disponible'),
+('Specialized', 'Rockhopper', 'Montaña', 'Disponible'),
+('Scott', 'Aspect 950', 'Montaña', 'Disponible'),
+('Cannondale', 'Quick 4', 'Paseo', 'Disponible'),
+('Merida', 'Crossway 100', 'Ruta', 'Disponible'),
+('Orbea', 'Alma H30', 'Montaña', 'Disponible'),
+('Bianchi', 'Via Nirone 7', 'Ruta', 'Disponible'),
+('KTM', 'Ultra Fun', 'Montaña', 'Disponible'),
+('Polygon', 'Heist X5', 'Paseo', 'Disponible'),
+('Giant', 'Talon 2', 'Montaña', 'Disponible'),
+('Specialized', 'Sirrus X 3.0', 'Paseo', 'Disponible'),
+('Cannondale', 'Trail 8', 'Montaña', 'Disponible'),
+('Merida', 'Big Nine 300', 'Montaña', 'Disponible'),
+('Scott', 'Sub Cross 50', 'Paseo', 'Disponible'),
+('Orbea', 'Vector 20', 'Paseo', 'Disponible'),
+('Bianchi', 'C-Sport 2', 'Paseo', 'Disponible'),
+('Trek', 'Marlin 5', 'Montaña', 'Disponible'),
+('KTM', 'Life Tour', 'Paseo', 'Disponible'),
+('Specialized', 'Diverge E5', 'Ruta', 'Disponible');
+
+INSERT INTO Usuarios (Nombre, Apellido, DNI, Correo, Telefono, Tipo_Usuario) VALUES
+('Carlos', 'Pérez', '12345678', 'carlos.perez@uni.edu.pe', '987654321', 'Estudiante'),
+('Lucía', 'Ramírez', '87654321', 'lucia.ramirez@uni.edu.pe', '912345678', 'Estudiante'),
+('Andrés', 'Gómez', '45678912', 'andres.gomez@uni.edu.pe', '998877665', 'Docente'),
+('María', 'Fernández', '11223344', 'maria.fernandez@uni.edu.pe', '976543210', 'Administrativo'),
+('Sofía', 'Díaz', '33445566', 'sofia.diaz@uni.edu.pe', '911223344', 'Estudiante'),
+('Javier', 'Torres', '99887766', 'javier.torres@uni.edu.pe', '987112233', 'Estudiante'),
+('Valeria', 'Morales', '22334455', 'valeria.morales@uni.edu.pe', '912334455', 'Docente'),
+('Pedro', 'Rojas', '55667788', 'pedro.rojas@uni.edu.pe', '945667788', 'Estudiante'),
+('Natalia', 'López', '66778899', 'natalia.lopez@uni.edu.pe', '934556677', 'Estudiante'),
+('Luis', 'García', '77889900', 'luis.garcia@uni.edu.pe', '922334455', 'Docente'),
+('Ana', 'Martínez', '88990011', 'ana.martinez@uni.edu.pe', '911445566', 'Administrativo'),
+('Diego', 'Silva', '99001122', 'diego.silva@uni.edu.pe', '988776655', 'Estudiante'),
+('Camila', 'Vargas', '10111213', 'camila.vargas@uni.edu.pe', '987123456', 'Estudiante'),
+('Fernando', 'Castro', '12131415', 'fernando.castro@uni.edu.pe', '912345123', 'Docente'),
+('Gabriela', 'Paredes', '13141516', 'gabriela.paredes@uni.edu.pe', '976112233', 'Estudiante'),
+('Ricardo', 'Ortega', '14151617', 'ricardo.ortega@uni.edu.pe', '911334455', 'Administrativo'),
+('Patricia', 'Reyes', '15161718', 'patricia.reyes@uni.edu.pe', '955667788', 'Estudiante'),
+('Hugo', 'Delgado', '16171819', 'hugo.delgado@uni.edu.pe', '911223355', 'Docente'),
+('Mónica', 'Mejía', '17181920', 'monica.mejia@uni.edu.pe', '987998877', 'Estudiante'),
+('Daniel', 'Cruz', '18192021', 'daniel.cruz@uni.edu.pe', '912345987', 'Estudiante');
+
+INSERT INTO Alquileres (ID_Bicicleta, ID_Usuario, Fecha_Alquiler, Fecha_Devolucion, Estado) VALUES
+(1, 1, '2025-07-01 08:00:00', '2025-07-01 10:00:00', 'Finalizado'),
+(2, 2, '2025-07-02 09:30:00', '2025-07-02 11:00:00', 'Finalizado'),
+(3, 3, '2025-07-03 14:00:00', '2025-07-03 15:30:00', 'Finalizado'),
+(4, 4, '2025-07-04 07:45:00', '2025-07-04 09:00:00', 'Finalizado'),
+(5, 5, '2025-07-05 10:00:00', '2025-07-05 11:30:00', 'Finalizado'),
+(6, 6, '2025-07-06 11:15:00', '2025-07-06 12:45:00', 'Finalizado'),
+(7, 7, '2025-07-07 08:30:00', '2025-07-07 09:30:00', 'Finalizado'),
+(8, 8, '2025-07-08 09:00:00', '2025-07-08 10:30:00', 'Finalizado'),
+(9, 9, '2025-07-09 10:00:00', '2025-07-09 11:00:00', 'Finalizado'),
+(10, 10, '2025-07-10 08:00:00', '2025-07-10 09:30:00', 'Finalizado'),
+(11, 11, '2025-07-11 13:00:00', '2025-07-11 14:30:00', 'Finalizado'),
+(12, 12, '2025-07-12 09:00:00', '2025-07-12 10:00:00', 'Finalizado'),
+(13, 13, '2025-07-13 15:00:00', '2025-07-13 16:00:00', 'Finalizado'),
+(14, 14, '2025-07-14 08:00:00', '2025-07-14 09:00:00', 'Finalizado'),
+(15, 15, '2025-07-15 10:30:00', '2025-07-15 12:00:00', 'Finalizado'),
+(16, 16, '2025-07-16 11:45:00', '2025-07-16 13:15:00', 'Finalizado'),
+(17, 17, '2025-07-17 08:00:00', '2025-07-17 09:15:00', 'Finalizado'),
+(18, 18, '2025-07-18 09:30:00', '2025-07-18 10:30:00', 'Finalizado'),
+(19, 19, '2025-07-19 07:50:00', '2025-07-19 09:00:00', 'Finalizado'),
+(20, 20, '2025-07-20 08:15:00', '2025-07-20 09:30:00', 'Finalizado');
+
+INSERT INTO Pagos (ID_Alquiler, Monto, Fecha_Pago, Metodo) VALUES
+(1, 5.00, '2025-07-01 10:05:00', 'Efectivo'),
+(2, 6.00, '2025-07-02 11:10:00', 'Yape'),
+(3, 4.50, '2025-07-03 15:00:00', 'Tarjeta'),
+(4, 5.50, '2025-07-04 09:05:00', 'Efectivo'),
+(5, 7.00, '2025-07-05 10:30:00', 'Plin'),
+(6, 6.50, '2025-07-06 11:45:00', 'Yape'),
+(7, 5.00, '2025-07-07 09:35:00', 'Tarjeta'),
+(8, 4.80, '2025-07-08 09:50:00', 'Efectivo'),
+(9, 5.20, '2025-07-09 11:10:00', 'Yape'),
+(10, 6.00, '2025-07-10 08:10:00', 'Tarjeta'),
+(11, 4.00, '2025-07-11 13:10:00', 'Efectivo'),
+(12, 5.50, '2025-07-12 10:10:00', 'Plin'),
+(13, 6.30, '2025-07-13 15:10:00', 'Yape'),
+(14, 5.70, '2025-07-14 09:10:00', 'Efectivo'),
+(15, 6.00, '2025-07-15 10:40:00', 'Tarjeta'),
+(16, 7.20, '2025-07-16 11:00:00', 'Yape'),
+(17, 4.90, '2025-07-17 12:00:00', 'Efectivo'),
+(18, 5.60, '2025-07-18 09:20:00', 'Plin'),
+(19, 5.30, '2025-07-19 10:35:00', 'Tarjeta'),
+(20, 6.80, '2025-07-20 08:00:00', 'Efectivo');
