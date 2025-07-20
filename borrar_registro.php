@@ -220,3 +220,128 @@ if($usuarios->num_rows == 0){
 
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>✏️ Editar Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0; padding: 20px; color: #333;
+        }
+        h1 {
+            text-align: center; color: #2c3e50;
+        }
+        .form-section {
+            background: #fff; padding: 20px; margin: 20px auto;
+            width: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input[type="text"], input[type="email"], select {
+            padding: 8px; width: 90%; margin-bottom: 10px;
+            border: 1px solid #ccc; border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 8px 15px; background: #2980b9; color: white;
+            border: none; border-radius: 4px; cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #3498db;
+        }
+        .mensaje {
+            text-align: center; font-size: 1.1em; margin-top: 15px;
+        }
+        .success { color: #27ae60; }
+        .error { color: #c0392b; }
+        a {
+            display: inline-block; margin-top: 10px;
+            background: #7f8c8d; color: white; padding: 8px 12px;
+            border-radius: 4px; text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>✏️ Editar Usuario</h1>
+
+<div class="form-section">
+    <h3>🔍 Buscar Usuario por DNI</h3>
+    <form method="POST" action="">
+        <input type="text" name="buscar_dni" placeholder="Ingrese DNI" required>
+        <input type="submit" name="buscar_usuario" value="Buscar">
+    </form>
+</div>
+
+<?php
+if (isset($_POST['buscar_usuario'])) {
+    $dni = $_POST['buscar_dni'];
+    $stmt = $conn->prepare("SELECT * FROM Usuarios WHERE DNI = ?");
+    $stmt->bind_param("s", $dni);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows > 0) {
+        $usuario = $resultado->fetch_assoc();
+        ?>
+
+        <div class="form-section">
+            <h3>✏️ Editar Información de Usuario</h3>
+            <form method="POST" action="">
+                <input type="hidden" name="id_usuario" value="<?php echo $usuario['ID_Usuario']; ?>">
+
+                Nombre:<br>
+                <input type="text" name="nombre" value="<?php echo $usuario['Nombre']; ?>" required><br>
+
+                Apellido:<br>
+                <input type="text" name="apellido" value="<?php echo $usuario['Apellido']; ?>" required><br>
+
+                Correo:<br>
+                <input type="email" name="correo" value="<?php echo $usuario['Correo']; ?>"><br>
+
+                Teléfono:<br>
+                <input type="text" name="telefono" value="<?php echo $usuario['Telefono']; ?>"><br>
+
+                Tipo de Usuario:<br>
+                <select name="tipo_usuario" required>
+                    <option value="Estudiante" <?php if ($usuario['Tipo_Usuario'] == 'Estudiante') echo 'selected'; ?>>Estudiante</option>
+                    <option value="Docente" <?php if ($usuario['Tipo_Usuario'] == 'Docente') echo 'selected'; ?>>Docente</option>
+                    <option value="Administrativo" <?php if ($usuario['Tipo_Usuario'] == 'Administrativo') echo 'selected'; ?>>Administrativo</option>
+                </select><br>
+
+                <input type="submit" name="actualizar_usuario" value="Guardar Cambios">
+            </form>
+        </div>
+
+        <?php
+    } else {
+        echo "<div class='mensaje error'>⚠️ No se encontró un usuario con ese DNI.</div>";
+    }
+
+    $stmt->close();
+}
+?>
+
+<?php
+if (isset($_POST['actualizar_usuario'])) {
+    $id = $_POST['id_usuario'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $correo = $_POST['correo'];
+    $telefono = $_POST['telefono'];
+    $tipo = $_POST['tipo_usuario'];
+
+    $update = $conn->prepare("UPDATE Usuarios SET Nombre=?, Apellido=?, Correo=?, Telefono=?, Tipo_Usuario=? WHERE ID_Usuario=?");
+    $update->bind_param("sssssi", $nombre, $apellido, $correo, $telefono, $tipo, $id);
+
+    if ($update->execute()) {
+        echo "<div class='mensaje success'>✅ Usuario actualizado correctamente.</div>";
+        echo "<meta http-equiv='refresh' content='2'>";
+    } else {
+        echo "<div class='mensaje error'>❌ Error al actualizar usuario.</div>";
+    }
+
+    $update->close();
+}
+?>
+
+</body>
+</html>
