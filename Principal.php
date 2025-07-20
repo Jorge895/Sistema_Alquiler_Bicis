@@ -105,6 +105,7 @@
     <div class="opciones">
         <h2>📋 Opciones:</h2>
         <a href="añadir_registro.php">➕ Añadir Registro</a>
+        <a href="registrar_entrega.php">➕ Registrar Entrega</a>
         <a href="borrar_registro.php">❌ Borrar Registro</a>
         <a href="revisar_bd.php">📊 Revisar Base de Datos</a>
         <a href="modificar_inventario.php">🛠️ Modificar Inventario</a>
