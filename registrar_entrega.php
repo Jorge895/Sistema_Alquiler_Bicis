@@ -64,7 +64,10 @@ if (isset($_POST['registrar'])) {
     $fecha_actual = date("Y-m-d H:i:s");
 
     // 1. Obtener datos del alquiler si está activo
-    $sql = "SELECT * FROM Alquileres WHERE ID_Alquiler = $id_alquiler AND Estado = 'Activo'";
+    $sql = "SELECT A.*, U.Nombre, U.Apellido, U.DNI 
+            FROM Alquileres A
+            JOIN Usuarios U ON A.ID_Usuario = U.ID_Usuario
+            WHERE A.ID_Alquiler = $id_alquiler AND A.Estado = 'Activo'";
     $res = $conn->query($sql);
 
     if ($res->num_rows === 1) {
@@ -72,9 +75,14 @@ if (isset($_POST['registrar'])) {
         $id_bici = $row['ID_Bicicleta'];
         $fecha_inicio = $row['Fecha_Alquiler'];
         $fecha_prevista = $row['Fecha_Devolucion'];
+        $nombre = $row['Nombre'];
+        $apellido = $row['Apellido'];
+        $dni = $row['DNI'];
 
         echo "<div class='datos-alquiler'>";
         echo "<h3>📋 Datos del Alquiler</h3>";
+        echo "<p><strong>Usuario:</strong> $nombre $apellido</p>";
+        echo "<p><strong>DNI:</strong> $dni</p>";
         echo "<p><strong>ID Bicicleta:</strong> $id_bici</p>";
         echo "<p><strong>Fecha de Alquiler:</strong> $fecha_inicio</p>";
         echo "<p><strong>Fecha Prevista de Devolución:</strong> $fecha_prevista</p>";
@@ -117,4 +125,3 @@ if (isset($_POST['registrar'])) {
 
 </body>
 </html>
-
