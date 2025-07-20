@@ -3,22 +3,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Añadir Registro</title>
+    <title>➕ Añadir Registro</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        p, form {
+            max-width: 600px;
+            margin: auto;
+            font-size: 1em;
+            color: #333;
+        }
+        input[type="text"], input[type="email"], input[type="datetime-local"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #219150;
+        }
+        select {
+            background: #fff;
+        }
+        a {
+            text-decoration: none;
+            background: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        #imagen_yape {
+            text-align: center;
+            margin-top: 10px;
+        }
+        #imagen_yape img {
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-section {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 650px;
+        }
+    </style>
 </head>
 <body>
 
-<br><br>
-<a href="Principal.php" style="text-decoration:none; background:#007BFF; color:white; padding:10px 20px; border-radius:5px;">⬅️ Volver a la Página Principal</a>
+<a href="Principal.php">⬅️ Volver a la Página Principal</a>
 
 <h2>➕ Añadir Registro de Alquiler</h2>
-
+<div class="form-section">
 <form method="POST" action="">
-    Ingrese DNI: <input type="text" name="dni" required>
+    <label>Ingrese DNI:</label>
+    <input type="text" name="dni" required>
     <input type="submit" name="verificar" value="Buscar Usuario">
 </form>
+</div>
 
 <?php
-$tarifa_hora = 5; // Tarifa por hora
+$tarifa_hora = 5;
 
 if(isset($_POST['verificar'])){
     $dni = $_POST['dni'];
@@ -30,28 +97,32 @@ if(isset($_POST['verificar'])){
     if($busqueda->num_rows > 0){
         $busqueda->bind_result($id_usuario, $nombre, $apellido, $dni, $tipo_usuario);
         $busqueda->fetch();
-        echo "<h3>👤 Usuario encontrado: $nombre $apellido</h3>";
+        echo "<div class='form-section'><h3>👤 Usuario encontrado: $nombre $apellido</h3>";
         echo "<p><strong>Tipo de usuario:</strong> $tipo_usuario</p>";
     } else {
-        echo "<h3>🆕 Usuario no registrado. Complete los datos:</h3>";
+        echo "<div class='form-section'><h3>🆕 Usuario no registrado. Complete los datos:</h3>";
         echo "<form method='POST' action=''>
             <input type='hidden' name='dni' value='$dni'>
-            Nombre: <input type='text' name='nombre' required><br>
-            Apellido: <input type='text' name='apellido' required><br>
-            Correo: <input type='email' name='correo' required><br>
-            Teléfono: <input type='text' name='telefono' required><br>
-            Tipo de usuario:
+            <label>Nombre:</label>
+            <input type='text' name='nombre' required>
+            <label>Apellido:</label>
+            <input type='text' name='apellido' required>
+            <label>Correo:</label>
+            <input type='email' name='correo' required>
+            <label>Teléfono:</label>
+            <input type='text' name='telefono' required>
+            <label>Tipo de usuario:</label>
             <select name='tipo_usuario' required>
                 <option value='Estudiante'>Estudiante</option>
                 <option value='Docente'>Docente</option>
                 <option value='Administrativo'>Administrativo</option>
-            </select><br><br>
+            </select>
             <input type='submit' name='registrar_usuario' value='Registrar Usuario y Continuar'>
-        </form>";
+        </form></div>";
         exit();
     }
 
-    echo "<h3>🚲 Datos del Alquiler:</h3>
+    echo "<h3>🚲 Datos del Alquiler:</h3><div class='form-section'>
     <form method='POST' action=''>
         <input type='hidden' name='id_usuario' value='$id_usuario'>
         <input type='hidden' name='nombre' value='$nombre'>
@@ -59,7 +130,7 @@ if(isset($_POST['verificar'])){
         <input type='hidden' name='dni' value='$dni'>
         <input type='hidden' name='tarifa_hora' value='$tarifa_hora'>
 
-        Modelo Bicicleta:
+        <label>Modelo Bicicleta:</label>
         <select name='id_bicicleta'>";
         
     $bicis = $conn->query("SELECT * FROM Bicicletas WHERE Estado='Disponible'");
@@ -67,11 +138,13 @@ if(isset($_POST['verificar'])){
         echo "<option value='".$bici['ID_Bicicleta']."|".$bici['Modelo']."'>".$bici['Marca']." - ".$bici['Modelo']."</option>";
     }
 
-    echo "</select><br>
-        Fecha Pedido: <input type='datetime-local' name='pedido' required><br>
-        Fecha Entrega: <input type='datetime-local' name='entrega' required><br><br>
+    echo "</select>
+        <label>Fecha Pedido:</label>
+        <input type='datetime-local' name='pedido' required>
+        <label>Fecha Entrega:</label>
+        <input type='datetime-local' name='entrega' required>
         <input type='submit' name='continuar' value='Continuar'>
-    </form>";
+    </form></div>";
     $busqueda->close();
 }
 
@@ -89,8 +162,7 @@ if(isset($_POST['registrar_usuario'])){
     $id_usuario = $stmt->insert_id;
     $stmt->close();
 
-    // Mostrar directamente el formulario de alquiler
-    echo "<h3>👤 Usuario registrado: $nombre $apellido</h3>
+    echo "<div class='form-section'><h3>👤 Usuario registrado: $nombre $apellido</h3>
     <p><strong>Tipo de usuario:</strong> $tipo_usuario</p>
     <form method='POST' action=''>
         <input type='hidden' name='id_usuario' value='$id_usuario'>
@@ -99,7 +171,7 @@ if(isset($_POST['registrar_usuario'])){
         <input type='hidden' name='dni' value='$dni'>
         <input type='hidden' name='tarifa_hora' value='$tarifa_hora'>
 
-        Modelo Bicicleta:
+        <label>Modelo Bicicleta:</label>
         <select name='id_bicicleta'>";
         
     $bicis = $conn->query("SELECT * FROM Bicicletas WHERE Estado='Disponible'");
@@ -107,11 +179,13 @@ if(isset($_POST['registrar_usuario'])){
         echo "<option value='".$bici['ID_Bicicleta']."|".$bici['Modelo']."'>".$bici['Marca']." - ".$bici['Modelo']."</option>";
     }
 
-    echo "</select><br>
-        Fecha Pedido: <input type='datetime-local' name='pedido' required><br>
-        Fecha Entrega: <input type='datetime-local' name='entrega' required><br><br>
+    echo "</select>
+        <label>Fecha Pedido:</label>
+        <input type='datetime-local' name='pedido' required>
+        <label>Fecha Entrega:</label>
+        <input type='datetime-local' name='entrega' required>
         <input type='submit' name='continuar' value='Continuar'>
-    </form>";
+    </form></div>";
     exit();
 }
 
@@ -140,17 +214,17 @@ if(isset($_POST['continuar'])){
     $pedido_formateado = $inicio->format('Y-m-d H:i');
     $entrega_formateada = $fin->format('Y-m-d H:i');
 
-    echo "<h3>📝 Confirmación de Datos:</h3>";
-    echo "<p><strong>DNI:</strong> $dni</p>";
-    echo "<p><strong>Usuario:</strong> $nombre $apellido</p>";
-    echo "<p><strong>ID Bicicleta:</strong> $id_bicicleta</p>";
-    echo "<p><strong>Modelo:</strong> $modelo</p>";
-    echo "<p><strong>Fecha Pedido:</strong> $pedido_formateado</p>";
-    echo "<p><strong>Fecha Entrega:</strong> $entrega_formateada</p>";
-    echo "<p><strong>Horas calculadas:</strong> $horas</p>";
-    echo "<p><strong>Monto total:</strong> S/ $monto</p>";
+    echo "<div class='form-section'><h3>📝 Confirmación de Datos:</h3>
+    <p><strong>DNI:</strong> $dni</p>
+    <p><strong>Usuario:</strong> $nombre $apellido</p>
+    <p><strong>ID Bicicleta:</strong> $id_bicicleta</p>
+    <p><strong>Modelo:</strong> $modelo</p>
+    <p><strong>Fecha Pedido:</strong> $pedido_formateado</p>
+    <p><strong>Fecha Entrega:</strong> $entrega_formateada</p>
+    <p><strong>Horas calculadas:</strong> $horas</p>
+    <p><strong>Monto total:</strong> S/ $monto</p>
 
-    echo "<h3>💰 Datos de Pago:</h3>
+    <h3>💰 Datos de Pago:</h3>
     <form method='POST' action=''>
         <input type='hidden' name='id_usuario' value='$id_usuario'>
         <input type='hidden' name='id_bicicleta' value='$id_bicicleta'>
@@ -158,7 +232,7 @@ if(isset($_POST['continuar'])){
         <input type='hidden' name='entrega' value='$entrega'>
         <input type='hidden' name='tarifa_hora' value='$tarifa_hora'>
 
-        Método de Pago: 
+        <label>Método de Pago:</label>
         <select name='metodo' id='metodo_pago' onchange='mostrarYape()'>
             <option value='Efectivo'>Efectivo</option>
             <option value='Tarjeta'>Tarjeta</option>
@@ -171,17 +245,13 @@ if(isset($_POST['continuar'])){
         </div><br>
 
         <input type='submit' name='calcular' value='Calcular Monto y Registrar'>
-    </form>
+    </form></div>
 
     <script>
         function mostrarYape() {
             var metodo = document.getElementById('metodo_pago').value;
             var divYape = document.getElementById('imagen_yape');
-            if(metodo === 'Yape') {
-                divYape.style.display = 'block';
-            } else {
-                divYape.style.display = 'none';
-            }
+            divYape.style.display = (metodo === 'Yape') ? 'block' : 'none';
         }
     </script>";
 }
@@ -219,9 +289,10 @@ if(isset($_POST['calcular'])){
     $pago->execute();
     $pago->close();
 
-    echo "<h3>✅ Alquiler registrado.</h3>";
+    echo "<div class='form-section'><h3>✅ Alquiler registrado.</h3></div>";
 }
 ?>
 
 </body>
 </html>
+
