@@ -57,7 +57,7 @@ while($m = $metodos->fetch_assoc()){
 <table>
 <tr><th>Fecha</th><th>Total</th></tr>
 <?php
-$res = $conn->query("SELECT DATE(Fecha_Pago) AS Fecha, SUM(Monto) AS Total FROM Pagos GROUP BY DATE(Fecha_Pago)");
+$res = $conn->query("SELECT DATE(Fecha_Pago) AS Fecha, SUM(Monto) AS Total FROM Pagos GROUP BY DATE(Fecha_Pago) ORDER BY Total DESC");
 while($row = $res->fetch_assoc()){
     echo "<tr><td>{$row['Fecha']}</td><td>$ ".number_format($row['Total'],2)."</td></tr>";
 }
@@ -75,6 +75,7 @@ $res = $conn->query("
     JOIN Alquileres A ON P.ID_Alquiler = A.ID_Alquiler
     JOIN Bicicletas B ON A.ID_Bicicleta = B.ID_Bicicleta
     GROUP BY B.ID_Bicicleta
+    ORDER BY Total DESC
 ");
 while($row = $res->fetch_assoc()){
     echo "<tr><td>{$row['Marca']}</td><td>{$row['Modelo']}</td><td>$ ".number_format($row['Total'],2)."</td></tr>";
@@ -93,6 +94,7 @@ $res = $conn->query("
     JOIN Alquileres A ON P.ID_Alquiler = A.ID_Alquiler
     JOIN Usuarios U ON A.ID_Usuario = U.ID_Usuario
     GROUP BY U.ID_Usuario
+    ORDER BY Total DESC
 ");
 while($row = $res->fetch_assoc()){
     echo "<tr><td>{$row['Nombre']} {$row['Apellido']}</td><td>{$row['DNI']}</td><td>$ ".number_format($row['Total'],2)."</td></tr>";
