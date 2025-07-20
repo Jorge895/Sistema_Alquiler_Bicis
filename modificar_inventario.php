@@ -87,6 +87,9 @@ if (isset($_POST['guardar_edicion'])) {
 </head>
 <body>
 
+<br><br>
+<a href="Principal.php" style="text-decoration:none; background:#007BFF; color:white; padding:10px 20px; border-radius:5px;">⬅️ Volver a la Página Principal</a>
+
 <h1>🔧 Modificar Inventario de Bicicletas</h1>
 
 <h2 style="text-align:center;">🔍 Buscar y eliminar bicicleta por ID</h2>

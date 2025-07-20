@@ -7,6 +7,9 @@
 </head>
 <body>
 
+<br><br>
+<a href="Principal.php" style="text-decoration:none; background:#007BFF; color:white; padding:10px 20px; border-radius:5px;">⬅️ Volver a la Página Principal</a>
+
 <h2>➕ Añadir Registro de Alquiler</h2>
 
 <form method="POST" action="">

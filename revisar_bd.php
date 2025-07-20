@@ -5,6 +5,9 @@
 <head><title>Revisar Base de Datos</title></head>
 <body>
 
+<br><br>
+<a href="Principal.php" style="text-decoration:none; background:#007BFF; color:white; padding:10px 20px; border-radius:5px;">⬅️ Volver a la Página Principal</a>
+
 <h2>📊 Revisar Base de Datos</h2>
 
 <!-- Formulario de búsqueda y filtro para Bicicletas -->
