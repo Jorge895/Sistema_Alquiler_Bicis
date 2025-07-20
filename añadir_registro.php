@@ -19,15 +19,16 @@ $tarifa_hora = 5; // Tarifa por hora
 
 if(isset($_POST['verificar'])){
     $dni = $_POST['dni'];
-    $busqueda = $conn->prepare("SELECT ID_Usuario, Nombre, Apellido, DNI FROM Usuarios WHERE DNI=?");
+    $busqueda = $conn->prepare("SELECT ID_Usuario, Nombre, Apellido, DNI, Tipo_Usuario FROM Usuarios WHERE DNI=?");
     $busqueda->bind_param("s", $dni);
     $busqueda->execute();
     $busqueda->store_result();
 
     if($busqueda->num_rows > 0){
-        $busqueda->bind_result($id_usuario, $nombre, $apellido, $dni);
+        $busqueda->bind_result($id_usuario, $nombre, $apellido, $dni, $tipo_usuario);
         $busqueda->fetch();
         echo "<h3>👤 Usuario encontrado: $nombre $apellido</h3>";
+        echo "<p><strong>Tipo de usuario:</strong> $tipo_usuario</p>";
     } else {
         echo "<h3>🆕 Usuario no registrado. Complete los datos:</h3>";
         echo "<form method='POST' action=''>
@@ -36,6 +37,12 @@ if(isset($_POST['verificar'])){
             Apellido: <input type='text' name='apellido' required><br>
             Correo: <input type='email' name='correo' required><br>
             Teléfono: <input type='text' name='telefono' required><br>
+            Tipo de usuario:
+            <select name='tipo_usuario' required>
+                <option value='Estudiante'>Estudiante</option>
+                <option value='Docente'>Docente</option>
+                <option value='Administrativo'>Administrativo</option>
+            </select><br><br>
             <input type='submit' name='registrar_usuario' value='Registrar Usuario y Continuar'>
         </form>";
         exit();
@@ -71,15 +78,17 @@ if(isset($_POST['registrar_usuario'])){
     $dni = $_POST['dni'];
     $correo = $_POST['correo'];
     $telefono = $_POST['telefono'];
+    $tipo_usuario = $_POST['tipo_usuario'];
 
-    $stmt = $conn->prepare("INSERT INTO Usuarios (Nombre, Apellido, DNI, Correo, Telefono, Tipo_Usuario) VALUES (?,?,?,?,?, 'Estudiante')");
-    $stmt->bind_param("sssss", $nombre, $apellido, $dni, $correo, $telefono);
+    $stmt = $conn->prepare("INSERT INTO Usuarios (Nombre, Apellido, DNI, Correo, Telefono, Tipo_Usuario) VALUES (?,?,?,?,?, ?)");
+    $stmt->bind_param("ssssss", $nombre, $apellido, $dni, $correo, $telefono, $tipo_usuario);
     $stmt->execute();
     $id_usuario = $stmt->insert_id;
     $stmt->close();
 
     // Mostrar directamente el formulario de alquiler
     echo "<h3>👤 Usuario registrado: $nombre $apellido</h3>
+    <p><strong>Tipo de usuario:</strong> $tipo_usuario</p>
     <form method='POST' action=''>
         <input type='hidden' name='id_usuario' value='$id_usuario'>
         <input type='hidden' name='nombre' value='$nombre'>
