@@ -2,7 +2,9 @@
 
 <!DOCTYPE html>
 <html>
-<head><title>Añadir Registro</title></head>
+<head>
+    <title>Añadir Registro</title>
+</head>
 <body>
 
 <h2>➕ Añadir Registro de Alquiler</h2>
@@ -145,13 +147,31 @@ if(isset($_POST['continuar'])){
         <input type='hidden' name='tarifa_hora' value='$tarifa_hora'>
 
         Método de Pago: 
-        <select name='metodo'>
+        <select name='metodo' id='metodo_pago' onchange='mostrarYape()'>
             <option value='Efectivo'>Efectivo</option>
             <option value='Tarjeta'>Tarjeta</option>
+            <option value='Yape'>Yape</option>
         </select><br><br>
 
+        <div id='imagen_yape' style='display:none;'>
+            <p><strong>Escanea este código QR de Yape:</strong></p>
+            <img src='imagenes/yape_qr.jpg' alt='Código QR de Yape' width='200'>
+        </div><br>
+
         <input type='submit' name='calcular' value='Calcular Monto y Registrar'>
-    </form>";
+    </form>
+
+    <script>
+        function mostrarYape() {
+            var metodo = document.getElementById('metodo_pago').value;
+            var divYape = document.getElementById('imagen_yape');
+            if(metodo === 'Yape') {
+                divYape.style.display = 'block';
+            } else {
+                divYape.style.display = 'none';
+            }
+        }
+    </script>";
 }
 
 if(isset($_POST['calcular'])){
