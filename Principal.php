@@ -108,6 +108,8 @@
         <a href="borrar_registro.php">❌ Borrar Registro</a>
         <a href="revisar_bd.php">📊 Revisar Base de Datos</a>
         <a href="modificar_inventario.php">🛠️ Modificar Inventario</a>
+        <a href="reportes_de_ingresos.php">📈 Ver Reportes de Ingresos</a>
+        <a href="tendencias_uso.php">📈 Ver Ver Tendencias de Uso</a>
     </div>
 </main>
 
