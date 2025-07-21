@@ -41,11 +41,10 @@ Este sistema utiliza una base de datos relacional para almacenar información cr
 
 ## Tecnologías Utilizadas
 
-El proyecto está construido utilizando las siguientes tecnologías:
+Por el momento, el proyecto está construido utilizando las siguientes tecnologías:
 
-- **Lenguaje de Programación:** Python (Flask/Django para el backend)
 - **Base de Datos:** MySQL/PostgreSQL
-- **Frontend:** HTML, CSS, JavaScript (React.js o Vue.js)
+- **Frontend:** PHP 
 - **Autenticación:** JWT (JSON Web Tokens)
 - **Control de Versiones:** Git, GitHub
 
@@ -54,77 +53,26 @@ El proyecto está construido utilizando las siguientes tecnologías:
 El repositorio está organizado de la siguiente manera:
 
 ```
-Sistema_Alquiler_Bicis/
+# Estructura de Archivos del Repositorio
+
+```plaintext
+Sistema_Alquiler_Bicis
 │
-├── backend/                # Código del servidor y la lógica de negocio
-│   ├── models/             # Modelos de base de datos
-│   ├── controllers/        # Lógica de control de las rutas
-│   ├── routes/             # Rutas de la API
-│   ├── config/             # Configuraciones de la aplicación
-│   └── app.py              # Punto de entrada del servidor
+├── imagenes/                   # Carpeta que contiene las imágenes
 │
-├── frontend/               # Interfaz de usuario
-│   ├── components/         # Componentes reutilizables
-│   ├── pages/              # Páginas de la aplicación
-│   └── index.html          # Página principal
-│
-├── database/               # Scripts para la creación de la base de datos
-│   └── schema.sql          # Esquema de la base de datos
-│
-├── README.md               # Este archivo
-└── requirements.txt        # Dependencias del proyecto
+├── Principal.php               # Página principal de la aplicación
+├── README.md                   # Documento de documentación del repositorio
+├── añadir_registro.php         # Página para añadir registros
+├── borrar_registro.php         # Página para eliminar registros
+├── codigo_msql.txt             # Archivo de configuración de la base de datos
+├── conexion.php                # Archivo que gestiona la conexión a la base de datos
+├── modificar_inventario.php    # Página para modificar el inventario de bicicletas
+├── registrar_entrega.php       # Página para registrar la entrega de bicicletas
+├── reportes_de_ingresos.php    # Página para generar reportes de ingresos
+├── revisar_bd.php              # Archivo que revisa la base de datos
+└── tendencias_uso.php          # Página para analizar tendencias de uso
+ments.txt        # Dependencias del proyecto
 ```
-
-## Instrucciones de Instalación
-
-### Prerrequisitos
-
-Antes de comenzar, asegúrate de tener instalado:
-
-- Python 3.8 o superior
-- MySQL o PostgreSQL (según la base de datos elegida)
-- Node.js (para el frontend si usas React o Vue)
-
-### Instalación del Backend
-
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/Jorge895/Sistema_Alquiler_Bicis.git
-   cd Sistema_Alquiler_Bicis
-   ```
-
-2. Instala las dependencias del backend:
-   ```bash
-   pip install -r backend/requirements.txt
-   ```
-
-3. Configura la base de datos:
-   - Crea una base de datos en MySQL o PostgreSQL.
-   - Ejecuta los scripts de creación de base de datos desde el archivo `database/schema.sql`.
-
-4. Inicia el servidor:
-   ```bash
-   cd backend
-   python app.py
-   ```
-
-### Instalación del Frontend
-
-1. Dirígete al directorio del frontend:
-   ```bash
-   cd frontend
-   ```
-
-2. Instala las dependencias de Node.js:
-   ```bash
-   npm install
-   ```
-
-3. Inicia el servidor frontend:
-   ```bash
-   npm start
-   ```
-
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Si deseas contribuir a este proyecto, sigue estos pasos:
