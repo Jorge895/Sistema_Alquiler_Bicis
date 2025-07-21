@@ -2,9 +2,9 @@
 # Sistema de Alquiler de Bicicletas
 ## Desarrolladores
 - Pedraza Laboriano, Jonnathan Jesús - 20231505
-- Valenzuela Villalobos, Eduardo -
-- Vilchez Alejo, Jorge -
-- Ventura Pezantes, Josúe Elías -
+- Valenzuela Villalobos, Eduardo -20231512
+- Vilchez Alejo, Jorge -20231514
+- Ventura Pezantes, Josúe Elías -20231513
 ## Descripción General
 
 El proyecto "Sistema de Alquiler de Bicicletas" tiene como objetivo crear una plataforma para la gestión eficiente del alquiler de bicicletas en una ciudad o área específica. La aplicación está diseñada para facilitar tanto el proceso de alquiler de bicicletas como la administración de la disponibilidad de las mismas. A través de este sistema, los usuarios podrán alquilar bicicletas de manera sencilla, mientras que los administradores podrán gestionar el inventario, el historial de alquileres y los pagos.
@@ -84,8 +84,11 @@ Las contribuciones son bienvenidas. Si deseas contribuir a este proyecto, sigue 
 5. Abre un pull request.
 
 ## Contacto
-
+M
 Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto con el equipo a través de los siguientes medios:
 
-- Correos: 20231505@lamolina.edu.pe, 
+- Correos: 20231505@lamolina.edu.pe,
+- Correos: 20231513@lamolina.edu.pe,
+- Correos: 20231514@lamolina.edu.pe,
+- Correos: 20231505@lamolina.edu.pe,
 - GitHub: [https://github.com/Jorge895/Sistema_Alquiler_Bicis](https://github.com/Jorge895/Sistema_Alquiler_Bicis)
