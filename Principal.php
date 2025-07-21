@@ -78,10 +78,13 @@
     </style>
 </head>
 <body>
-
-<header>
-    <h1>🚲 Sistema de Alquiler de Bicicletas</h1>
+    
+<header style="display:flex; align-items:center; gap:15px; padding:10px;">
+    <img src="los-jotitas.jpeg" alt="Logo Bicicletas" style="height:60px;">
+    <h1> Sistema de Alquiler de Bicicletas</h1>
 </header>
+
+
 
 <main>
     <h2>Bicicletas Disponibles</h2>

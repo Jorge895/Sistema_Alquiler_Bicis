@@ -1,3 +1,4 @@
+
 <?php include("conexion.php"); ?>
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
         h1 { text-align:center; color:#2c3e50; }
         .dashboard { display:flex; justify-content:space-around; flex-wrap:wrap; margin:20px 0; }
         .card {
-            background:#fff; padding:20px; width:28%; margin:10px;
+            background:#fff; padding:20px; width:22%; margin:10px;
             box-shadow:0 2px 5px rgba(0,0,0,0.1); border-radius:10px; text-align:center;
         }
         .card h2 { margin:0; color:#27ae60; font-size:2em; }
@@ -33,10 +34,11 @@ $total = $conn->query("SELECT SUM(Monto) AS Total FROM Pagos")->fetch_assoc()['T
 // Total por método
 $metodos = $conn->query("SELECT Metodo, SUM(Monto) AS Total FROM Pagos GROUP BY Metodo");
 
-$efectivo = 0; $tarjeta = 0;
+$efectivo = 0; $tarjeta = 0; $yape = 0;
 while($m = $metodos->fetch_assoc()){
     if($m['Metodo']=='Efectivo') $efectivo = $m['Total'];
     if($m['Metodo']=='Tarjeta') $tarjeta = $m['Total'];
+    if($m['Metodo']=='Yape') $yape = $m['Total'];
 }
 ?>
 
@@ -52,6 +54,10 @@ while($m = $metodos->fetch_assoc()){
     <div class="card">
         <h2>$<?php echo number_format($tarjeta,2); ?></h2>
         <p>Pagos con Tarjeta</p>
+    </div>
+    <div class="card">
+        <h2>$<?php echo number_format($yape,2); ?></h2>
+        <p>Pagos con Yape</p>
     </div>
 </div>
 
